@@ -411,7 +411,8 @@
       "instruction1": "1. Completá la hoja Participantes: Nombre, Email, Tipo de comensal (poco / normal / mucho / vegetariano / niño) y cantidad de Acompañantes.",
       "instruction2": "2. La hoja Items es opcional: Nombre, Unidad (g, kg, ml, l, unidad), Cantidad y Categoria (comida / bebida / insumo).",
       "instruction3": "3. No cambies los nombres de las hojas ni de las columnas.",
-      "instruction4": "4. Los participantes se vinculan por email: solo se importan los que ya tienen cuenta en la app."
+      "instruction4": "4. Los participantes se vinculan por email: solo se importan los que ya tienen cuenta en la app.",
+      "instruction5": "5. Las filas en gris son ejemplos: reemplazalas por tus datos (o borralas)."
     },
     "sheet": {
       "summary": "Resumen",

@@ -1,4 +1,4 @@
-import * as XLSX from "xlsx";
+import * as XLSX from "xlsx-js-style";
 import { z } from "zod";
 import type { ParticipantEaterType } from "@/types/database";
 import type { ImportResult } from "./types";

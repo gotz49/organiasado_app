@@ -1,5 +1,12 @@
-import * as XLSX from "xlsx";
+import * as XLSX from "xlsx-js-style";
 import { formatTime } from "@/lib/format";
+import {
+  headerStyle,
+  labelStyle,
+  setRowHeight,
+  styleColumn,
+  styleRow,
+} from "./style";
 import type { EventExportData, ExcelT } from "./types";
 
 // Export de evento completo a .xlsx con SheetJS, en el cliente (spec 5.8).
@@ -37,6 +44,7 @@ export function buildEventWorkbook(
   ];
   const wsSummary = XLSX.utils.aoa_to_sheet(summaryRows);
   autoWidth(wsSummary, summaryRows);
+  styleColumn(wsSummary, 0, 0, summaryRows.length - 1, labelStyle);
   XLSX.utils.book_append_sheet(wb, wsSummary, t("sheet.summary"));
 
   // ---- Participantes ----
@@ -58,6 +66,8 @@ export function buildEventWorkbook(
   ];
   const wsParticipants = XLSX.utils.aoa_to_sheet(participantRows);
   autoWidth(wsParticipants, participantRows);
+  styleRow(wsParticipants, 0, participantRows[0].length, headerStyle);
+  setRowHeight(wsParticipants, 0, 18);
   XLSX.utils.book_append_sheet(wb, wsParticipants, t("sheet.participants"));
 
   // ---- Ítems ----
@@ -90,6 +100,8 @@ export function buildEventWorkbook(
   ];
   const wsItems = XLSX.utils.aoa_to_sheet(itemRows);
   autoWidth(wsItems, itemRows);
+  styleRow(wsItems, 0, itemRows[0].length, headerStyle);
+  setRowHeight(wsItems, 0, 18);
   XLSX.utils.book_append_sheet(wb, wsItems, t("sheet.items"));
 
   // ---- Gastos ----
@@ -111,6 +123,8 @@ export function buildEventWorkbook(
   ];
   const wsExpenses = XLSX.utils.aoa_to_sheet(expenseRows);
   autoWidth(wsExpenses, expenseRows);
+  styleRow(wsExpenses, 0, expenseRows[0].length, headerStyle);
+  setRowHeight(wsExpenses, 0, 18);
   XLSX.utils.book_append_sheet(wb, wsExpenses, t("sheet.expenses"));
 
   // ---- Saldos ----
@@ -140,6 +154,14 @@ export function buildEventWorkbook(
   ];
   const wsBalances = XLSX.utils.aoa_to_sheet(balanceRows);
   autoWidth(wsBalances, balanceRows);
+  // Header de saldos + sub-headers de las secciones de transferencias y pagos
+  const B = data.balances.size;
+  const T = data.transfers.length;
+  styleRow(wsBalances, 0, 2, headerStyle);
+  styleColumn(wsBalances, 0, B + 2, B + 2, labelStyle); // "Transferencias sugeridas"
+  styleRow(wsBalances, B + 3, 3, headerStyle);
+  styleColumn(wsBalances, 0, B + 5 + T, B + 5 + T, labelStyle); // "Pagos realizados"
+  styleRow(wsBalances, B + 6 + T, 4, headerStyle);
   XLSX.utils.book_append_sheet(wb, wsBalances, t("sheet.balances"));
 
   return wb;

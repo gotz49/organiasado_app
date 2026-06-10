@@ -7,8 +7,10 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Check, HelpCircle, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import type { Profile, RsvpStatus } from "@/types/database";
+import { rsvpColor } from "./rsvp-colors";
 import { RsvpDialog } from "./rsvp-dialog";
 
 /** Overlay a pantalla completa mientras se guarda la respuesta y se navega. */
@@ -87,12 +89,18 @@ export function PublicRsvpActions({
         <>
           <p className="text-sm font-medium">{tRsvp("areYouGoing")}</p>
           <div className="grid grid-cols-3 gap-2">
-            <Button disabled={loading} onClick={() => quickAnswer("yes")}>
+            <Button
+              variant="outline"
+              className={cn(rsvpColor("yes", true))}
+              disabled={loading}
+              onClick={() => quickAnswer("yes")}
+            >
               <Check />
               {tRsvp("yes")}
             </Button>
             <Button
               variant="outline"
+              className={cn(rsvpColor("maybe", true))}
               disabled={loading}
               onClick={() => quickAnswer("maybe")}
             >
@@ -101,6 +109,7 @@ export function PublicRsvpActions({
             </Button>
             <Button
               variant="outline"
+              className={cn(rsvpColor("no", true))}
               disabled={loading}
               onClick={() => quickAnswer("no")}
             >

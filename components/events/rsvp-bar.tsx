@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Check, HelpCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import type {
   EventParticipant,
@@ -14,6 +15,7 @@ import type {
   RsvpStatus,
 } from "@/types/database";
 import { eventDataKey } from "./use-event-data";
+import { rsvpColor } from "./rsvp-colors";
 import { RsvpDialog } from "./rsvp-dialog";
 
 /**
@@ -91,7 +93,8 @@ export function RsvpBar({
       <div className="ml-auto flex gap-1.5">
         <Button
           size="sm"
-          variant={current === "yes" ? "default" : "outline"}
+          variant="outline"
+          className={cn(rsvpColor("yes", current === "yes"))}
           disabled={loading}
           onClick={() => quickAnswer("yes")}
         >
@@ -100,7 +103,8 @@ export function RsvpBar({
         </Button>
         <Button
           size="sm"
-          variant={current === "maybe" ? "default" : "outline"}
+          variant="outline"
+          className={cn(rsvpColor("maybe", current === "maybe"))}
           disabled={loading}
           onClick={() => quickAnswer("maybe")}
         >
@@ -109,7 +113,8 @@ export function RsvpBar({
         </Button>
         <Button
           size="sm"
-          variant={current === "no" ? "default" : "outline"}
+          variant="outline"
+          className={cn(rsvpColor("no", current === "no"))}
           disabled={loading}
           onClick={() => quickAnswer("no")}
         >
