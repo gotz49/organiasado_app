@@ -24,10 +24,8 @@ Query · SheetJS.
 
 3. **Variables de entorno** — copiá `.env.example` a `.env.local` y completá:
    ```
-   NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
-   SUPABASE_SERVICE_ROLE_KEY=<service_role key>
-   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   NEXT_PUBLIC_SUPABASE_URL=<project url>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<publishable key (sb_publishable_...)>
    ```
 
 4. **Aplicar migraciones**

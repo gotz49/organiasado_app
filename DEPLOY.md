@@ -2,65 +2,52 @@
 
 GitHub es la fuente de la verdad. Al hacer push a `main`:
 
+- **Supabase** aplica las migraciones de `supabase/migrations` automáticamente
+  (integración nativa: *Integrations → GitHub → Deploy to production*, con
+  production branch = `main`). Sin Docker, sin secrets en GitHub.
 - **Vercel** deploya el frontend.
-- **GitHub Actions** (`.github/workflows/supabase-migrations.yml`) aplica las migraciones a Supabase con `supabase db push` — sin Docker.
 
 ```
-git push ──▶ GitHub ──┬──▶ Vercel (frontend)
-                      └──▶ GitHub Actions ──▶ supabase db push (migraciones)
+git push ──▶ GitHub ──┬──▶ Supabase (migraciones, integración nativa)
+                      └──▶ Vercel (frontend)
 ```
 
-## 1. Crear el proyecto Supabase (una vez)
+## Estado actual
 
-1. Entrá a [supabase.com](https://supabase.com) → **New project**.
-2. Elegí una región cercana (ej. São Paulo para LATAM) y guardá la **Database password**.
-3. Cuando termine de provisionar, anotá de **Project Settings → API**:
-   - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
-   - `anon public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `service_role` key → `SUPABASE_SERVICE_ROLE_KEY`
-   - El **Reference ID** (en la URL del dashboard o en Settings → General) → `PROJECT_REF`
+- ✅ Repo: `github.com/gotz49/organiasado_app`
+- ✅ Supabase: proyecto `strxprszloztovxmfiar`, migraciones aplicadas.
+- ⬜ Vercel: pendiente (ver abajo).
 
-## 2. Secrets del repo en GitHub (para el workflow de migraciones)
+## Variables de entorno (Vercel)
 
-En GitHub: **Settings → Secrets and variables → Actions → New repository secret**. Cargá:
+El código solo usa **dos** variables (ambas públicas, seguras de exponer):
 
-| Secret | De dónde sale |
+| Variable | Valor |
 |---|---|
-| `SUPABASE_ACCESS_TOKEN` | [supabase.com/dashboard/account/tokens](https://supabase.com/dashboard/account/tokens) → Generate new token |
-| `SUPABASE_DB_PASSWORD` | La Database password del paso 1 |
-| `SUPABASE_PROJECT_REF` | El Reference ID del proyecto |
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://strxprszloztovxmfiar.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | la *publishable key* (`sb_publishable_...`) |
 
-Con eso, el primer push a `main` (o correr el workflow a mano desde la pestaña **Actions**)
-aplica las 4 migraciones, incluyendo los tipos de evento globales y sus presets.
+> No se necesita la `service_role` key: ningún código la usa. Mantenerla fuera
+> reduce la superficie de ataque.
 
-> Alternativa manual (sin esperar al workflow): desde tu máquina, una sola vez:
-> ```bash
-> npx supabase login
-> npx supabase link --project-ref <PROJECT_REF>
-> npx supabase db push
-> ```
+## Deploy del frontend en Vercel
 
-## 3. Deploy del frontend en Vercel
-
-1. Entrá a [vercel.com](https://vercel.com) → **Add New → Project** → importá el repo de GitHub.
-2. Framework: **Next.js** (autodetectado). No cambies build settings.
-3. En **Environment Variables** cargá:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `NEXT_PUBLIC_APP_URL` → tu dominio de Vercel (ej. `https://juntada.vercel.app`)
+1. [vercel.com](https://vercel.com) → **Add New → Project** → importá `organiasado_app`.
+2. Framework: **Next.js** (autodetectado). Root directory: la raíz del repo. No toques el build.
+3. En **Environment Variables** cargá las 2 de la tabla de arriba.
 4. **Deploy**. Cada push a `main` redeploya; cada PR genera un preview.
 
-## 4. Configurar Auth en Supabase (una vez, post-deploy)
+## Configurar Auth en Supabase (post-deploy, una vez)
 
 En **Authentication → URL Configuration** del dashboard de Supabase:
 
-- **Site URL**: tu dominio de Vercel (`https://juntada.vercel.app`).
-- **Redirect URLs**: agregá `https://juntada.vercel.app/auth/callback`
-  (y `http://localhost:3000/auth/callback` para desarrollo).
+- **Site URL**: tu dominio de Vercel (ej. `https://organiasado-app.vercel.app`).
+- **Redirect URLs**: agregá `https://<tu-dominio>.vercel.app/auth/callback`.
 
-Opcional: en **Authentication → Emails**, traducí al español las plantillas de
-verificación y de recuperación de contraseña.
+Opcional, en **Authentication → Sign In / Providers → Email**:
+- Para desarrollo/testing rápido: desactivá **Confirm email** (permite registrarse
+  y entrar sin verificar el correo).
+- Para producción: dejalo activado y traducí las plantillas de email al español.
 
 ## Flujo de trabajo diario
 
@@ -71,9 +58,8 @@ git commit -am "mi cambio"
 git push -u origin mi-cambio
 # Abrís PR → Vercel te da un preview. Al mergear a main:
 #   - Vercel deploya a producción
-#   - GitHub Actions aplica las migraciones nuevas
+#   - Supabase aplica las migraciones nuevas
 ```
 
-> **Importante sobre migraciones**: nunca edites una migración ya aplicada en
-> producción. Para cambiar el esquema, creá una migración nueva
-> (`npx supabase migration new <nombre>`).
+> **Migraciones**: nunca edites una ya aplicada en producción. Para cambiar el
+> esquema, creá una nueva con `npx supabase migration new <nombre>`.
