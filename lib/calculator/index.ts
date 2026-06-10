@@ -74,7 +74,10 @@ export function computeQuantityNeeded(
 export function buildItemsFromPresets(
   eventId: string,
   presets: EventTypePreset[]
-): Omit<EventItem, "id" | "created_at" | "updated_at" | "notes">[] {
+): Omit<
+  EventItem,
+  "id" | "created_at" | "updated_at" | "notes" | "purchased"
+>[] {
   return presets.map((p) => ({
     event_id: eventId,
     item_name: p.item_name,

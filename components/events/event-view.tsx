@@ -19,6 +19,7 @@ import { useEventData } from "./use-event-data";
 import { RsvpBar } from "./rsvp-bar";
 import { ParticipantsTab } from "./participants-tab";
 import { ItemsTab } from "./items-tab";
+import { ShoppingTab } from "./shopping-tab";
 import { ExpensesTab } from "./expenses-tab";
 import { BalancesTab } from "./balances-tab";
 
@@ -143,6 +144,9 @@ export function EventView({
               {t("tabs.participants")} ({confirmedCount})
             </TabsTrigger>
             <TabsTrigger value="items">{t("tabs.items")}</TabsTrigger>
+            {isOrganizer && (
+              <TabsTrigger value="shopping">{t("tabs.shopping")}</TabsTrigger>
+            )}
             <TabsTrigger value="expenses">{t("tabs.expenses")}</TabsTrigger>
             <TabsTrigger value="balances">{t("tabs.balances")}</TabsTrigger>
           </TabsList>
@@ -164,6 +168,11 @@ export function EventView({
               isOrganizer={isOrganizer}
             />
           </TabsContent>
+          {isOrganizer && (
+            <TabsContent value="shopping" className="pt-4">
+              <ShoppingTab event={event} data={data} />
+            </TabsContent>
+          )}
           <TabsContent value="expenses" className="pt-4">
             <ExpensesTab
               event={event}
@@ -180,6 +189,7 @@ export function EventView({
               hostName={hostName}
               data={data}
               currentUserId={profile.id}
+              isOrganizer={isOrganizer}
             />
           </TabsContent>
         </Tabs>

@@ -22,6 +22,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { createClient } from "@/lib/supabase/client";
 import { computeBalances, simplifyDebts, type Transfer } from "@/lib/debts";
 import { downloadEventExcel } from "@/lib/excel/export";
@@ -35,12 +43,14 @@ export function BalancesTab({
   hostName,
   data,
   currentUserId,
+  isOrganizer,
 }: {
   event: EventRow;
   eventTypeName: string | null;
   hostName: string;
   data: EventData;
   currentUserId: string;
+  isOrganizer: boolean;
 }) {
   const t = useTranslations("balances");
   const tExcel = useTranslations("excel");
@@ -54,6 +64,29 @@ export function BalancesTab({
     data.settlements
   );
   const transfers = simplifyDebts(balances);
+
+  // Resumen por persona: cuánto puso (pagó) y cuánto le tocó (su parte).
+  const puso = new Map<string, number>();
+  for (const x of data.expenses) {
+    puso.set(x.paid_by, (puso.get(x.paid_by) ?? 0) + x.amount);
+  }
+  const leToco = new Map<string, number>();
+  for (const s of data.shares) {
+    const p = data.participants.find((pp) => pp.id === s.participant_id);
+    if (p) leToco.set(p.user_id, (leToco.get(p.user_id) ?? 0) + s.share_amount);
+  }
+  const summaryUserIds = [
+    ...new Set([
+      ...data.participants.map((p) => p.user_id),
+      ...puso.keys(),
+      ...leToco.keys(),
+    ]),
+  ].filter(
+    (uid) =>
+      (puso.get(uid) ?? 0) > 0 ||
+      (leToco.get(uid) ?? 0) > 0 ||
+      Math.abs(balances.get(uid) ?? 0) > 0.01
+  );
 
   const nameOf = (userId: string) =>
     data.profiles.get(userId)?.display_name ?? "?";
@@ -126,6 +159,57 @@ export function BalancesTab({
           {t("exportExcel")}
         </Button>
       </div>
+
+      {/* Resumen por persona — solo organizador/co-organizador */}
+      {isOrganizer && summaryUserIds.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">{t("perPersonTitle")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t("colPerson")}</TableHead>
+                  <TableHead className="text-right">{t("colPaid")}</TableHead>
+                  <TableHead className="text-right">{t("colOwed")}</TableHead>
+                  <TableHead className="text-right">{t("colNet")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {summaryUserIds.map((uid) => {
+                  const net = balances.get(uid) ?? 0;
+                  return (
+                    <TableRow key={uid}>
+                      <TableCell>{nameOf(uid)}</TableCell>
+                      <TableCell className="text-right">
+                        {formatCurrency(puso.get(uid) ?? 0, event.currency)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {formatCurrency(leToco.get(uid) ?? 0, event.currency)}
+                      </TableCell>
+                      <TableCell
+                        className={`text-right font-medium ${
+                          net > 0.01
+                            ? "text-green-600"
+                            : net < -0.01
+                              ? "text-destructive"
+                              : "text-muted-foreground"
+                        }`}
+                      >
+                        {formatCurrency(net, event.currency)}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {t("perPersonHint")}
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Balances netos */}
       <Card>

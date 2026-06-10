@@ -244,9 +244,15 @@
     "tabs": {
       "participants": "Gente",
       "items": "Ítems",
+      "shopping": "Compras",
       "expenses": "Gastos",
       "balances": "Saldos"
     }
+  },
+  "shopping": {
+    "hint": "Tu lista para comprar. Marcá cada ítem a medida que lo comprás.",
+    "empty": "No hay ítems para comprar todavía.",
+    "progress": "{done} de {total} comprados"
   },
   "rsvp": {
     "areYouGoing": "¿Vas?",
@@ -362,6 +368,12 @@
   },
   "balances": {
     "exportExcel": "Exportar a Excel",
+    "perPersonTitle": "Resumen por persona",
+    "perPersonHint": "Puso = lo que pagó · Le tocó = su parte · Neto = a favor (verde) o en contra (rojo), ya descontando los pagos registrados.",
+    "colPerson": "Persona",
+    "colPaid": "Puso",
+    "colOwed": "Le tocó",
+    "colNet": "Neto",
     "netBalances": "Saldos",
     "noExpenses": "Sin gastos registrados: acá vas a ver cuánto pone cada uno.",
     "you": "(vos)",

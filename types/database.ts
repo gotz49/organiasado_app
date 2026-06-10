@@ -110,6 +110,7 @@ export type EventItem = {
   notes: string | null;
   sort_order: number;
   auto_calculated: boolean;
+  purchased: boolean;
   qty_per_adult_low: number | null;
   qty_per_adult_normal: number | null;
   qty_per_adult_high: number | null;
