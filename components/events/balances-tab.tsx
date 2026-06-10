@@ -198,7 +198,9 @@ export function BalancesTab({
                         onClick={() => setSettleTransfer(transfer)}
                       >
                         <HandCoins />
-                        {t("markPaid")}
+                        {transfer.fromUserId === currentUserId
+                          ? t("markIPaid")
+                          : t("markIGotPaid")}
                       </Button>
                     )}
                   </span>
