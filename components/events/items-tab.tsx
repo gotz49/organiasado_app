@@ -605,7 +605,13 @@ function AddItemDialog({
               onValueChange={(v) => setCategory(v as string)}
             >
               <SelectTrigger className="w-full">
-                <SelectValue />
+                <SelectValue>
+                  {(value) =>
+                    (ITEM_CATEGORIES as readonly string[]).includes(value)
+                      ? tCategories(value)
+                      : value
+                  }
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {ITEM_CATEGORIES.map((c) => (

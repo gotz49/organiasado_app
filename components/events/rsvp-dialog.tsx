@@ -104,7 +104,9 @@ export function RsvpDialog({
               onValueChange={(v) => setEaterType(v as ParticipantEaterType)}
             >
               <SelectTrigger className="w-full">
-                <SelectValue />
+                <SelectValue>
+                  {(value) => tEater(value as ParticipantEaterType)}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {PARTICIPANT_EATER_TYPES.map((type) => (

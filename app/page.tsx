@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function LandingPage() {
@@ -29,10 +30,11 @@ export default async function LandingPage() {
       <header className="border-b">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <span className="flex items-center gap-2 text-lg font-bold">
-            <Beef className="size-6 text-orange-600" />
+            <Beef className="size-6 text-primary" />
             {t("appName")}
           </span>
           <nav className="flex items-center gap-2">
+            <ThemeToggle />
             {user ? (
               <Button render={<Link href="/app" />}>{t("goToApp")}</Button>
             ) : (
@@ -75,7 +77,7 @@ export default async function LandingPage() {
         {features.map(({ icon: Icon, key }) => (
           <Card key={key}>
             <CardHeader>
-              <Icon className="size-8 text-orange-600" />
+              <Icon className="size-8 text-primary" />
               <CardTitle className="text-base">
                 {t(`features.${key}.title`)}
               </CardTitle>

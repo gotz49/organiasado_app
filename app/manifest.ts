@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Juntada",
-    short_name: "Juntada",
+    name: "Organiasado",
+    short_name: "Organiasado",
     description:
       "Organizá asados y juntadas con amigos: cantidades, quién trae qué y quién le debe a quién.",
     start_url: "/app",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#ea580c",
+    background_color: "#e8f1f2",
+    theme_color: "#31493c",
     lang: "es",
     icons: [
       {

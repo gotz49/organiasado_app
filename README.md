@@ -1,4 +1,4 @@
-# Juntada — App de organización de eventos gastronómicos
+# Organiasado — App de organización de eventos gastronómicos
 
 PWA para organizar asados, hamburgueseadas y juntadas entre amigos: cuántos van,
 cuánto comprar, quién trae qué y quién le debe a quién. MVP v1 según `../spec-mvp-v1.md`.

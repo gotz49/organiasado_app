@@ -12,7 +12,7 @@ export default async function PrivacyPage() {
         className="mb-6 flex items-center gap-1 text-sm text-muted-foreground hover:underline"
       >
         <ArrowLeft className="size-4" />
-        Juntada
+        Organiasado
       </Link>
       <h1 className="text-3xl font-bold">{t("title")}</h1>
       <p className="mt-1 text-sm text-muted-foreground">{t("updated")}</p>

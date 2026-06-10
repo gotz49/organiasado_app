@@ -342,7 +342,9 @@ function AddExpenseDialog({
                 disabled={!isOrganizer}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue />
+                  <SelectValue>
+                    {(value) => nameOf(value as string)}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {confirmed.map((p) => (
@@ -363,7 +365,12 @@ function AddExpenseDialog({
                 onValueChange={(v) => setItemId((v as string) ?? "")}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={t("noItem")} />
+                  <SelectValue placeholder={t("noItem")}>
+                    {(value) =>
+                      data.items.find((it) => it.id === value)?.item_name ??
+                      t("noItem")
+                    }
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {data.items.map((item) => (

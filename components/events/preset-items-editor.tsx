@@ -168,7 +168,13 @@ export function PresetItemsEditor({
             onValueChange={(v) => setDraft({ ...draft, category: v as string })}
           >
             <SelectTrigger className="w-full">
-              <SelectValue />
+              <SelectValue>
+                {(value) =>
+                  (ITEM_CATEGORIES as readonly string[]).includes(value)
+                    ? t(`categories.${value}`)
+                    : value
+                }
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {ITEM_CATEGORIES.map((c) => (

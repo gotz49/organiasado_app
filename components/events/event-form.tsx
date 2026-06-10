@@ -234,7 +234,12 @@ export function EventForm({ eventTypes, profile, event }: EventFormProps) {
                   disabled={isEdit}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t("typePlaceholder")} />
+                    <SelectValue placeholder={t("typePlaceholder")}>
+                      {(value) =>
+                        eventTypes.find((et) => et.id === value)?.name ??
+                        t("typePlaceholder")
+                      }
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {eventTypes.map((type) => (

@@ -49,7 +49,7 @@ export default async function PublicEventPage({
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-10">
       <Link href="/" className="mb-8 flex items-center gap-2 text-xl font-bold">
-        <Beef className="size-7 text-orange-600" />
+        <Beef className="size-7 text-primary" />
         {tLanding("appName")}
       </Link>
 

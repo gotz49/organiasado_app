@@ -1,10 +1,10 @@
 {
   "app": {
-    "name": "Juntada",
+    "name": "Organiasado",
     "description": "Organizá asados, hamburgueseadas y juntadas con amigos: cuántos van, cuánto comprar, quién trae qué y quién le debe a quién."
   },
   "landing": {
-    "appName": "Juntada",
+    "appName": "Organiasado",
     "goToApp": "Mis eventos",
     "login": "Iniciar sesión",
     "register": "Crear cuenta",
@@ -35,7 +35,8 @@
   "nav": {
     "profile": "Mi perfil",
     "eventTypes": "Tipos de evento",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "toggleTheme": "Cambiar tema"
   },
   "auth": {
     "loginTitle": "Iniciar sesión",
@@ -370,7 +371,7 @@
     "parseErrors": "{count, plural, one {# fila con errores fue omitida} other {# filas con errores fueron omitidas}}",
     "template": {
       "sheetInstructions": "Instrucciones",
-      "instructionsTitle": "Plantilla de importación — Juntada",
+      "instructionsTitle": "Plantilla de importación — Organiasado",
       "instruction1": "1. Completá la hoja Participantes: Nombre, Email, Tipo de comensal (poco / normal / mucho / vegetariano / niño) y cantidad de Acompañantes.",
       "instruction2": "2. La hoja Items es opcional: Nombre, Unidad (g, kg, ml, l, unidad), Cantidad y Categoria (comida / bebida / insumo).",
       "instruction3": "3. No cambies los nombres de las hojas ni de las columnas.",
@@ -469,7 +470,7 @@
     "terms": {
       "title": "Términos y condiciones",
       "updated": "Última actualización: junio de 2026",
-      "p1": "Juntada es una aplicación para organizar eventos gastronómicos entre amigos. Al crear una cuenta aceptás estos términos.",
+      "p1": "Organiasado es una aplicación para organizar eventos gastronómicos entre amigos. Al crear una cuenta aceptás estos términos.",
       "p2": "El servicio se ofrece tal cual, sin garantías. Las cantidades sugeridas por la calculadora son estimaciones orientativas y los cálculos de gastos dependen de los datos que carguen los participantes.",
       "p3": "Sos responsable del contenido que publicás (nombres de eventos, descripciones, notas). No está permitido usar la plataforma para actividades ilegales, spam o contenido ofensivo.",
       "p4": "La app no procesa pagos: los registros de gastos y pagos entre participantes son anotaciones informativas y no constituyen transacciones financieras.",
