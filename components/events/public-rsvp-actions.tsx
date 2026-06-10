@@ -5,11 +5,21 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { Check, HelpCircle, X } from "lucide-react";
+import { Check, HelpCircle, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import type { Profile, RsvpStatus } from "@/types/database";
 import { RsvpDialog } from "./rsvp-dialog";
+
+/** Overlay a pantalla completa mientras se guarda la respuesta y se navega. */
+function SavingOverlay({ label }: { label: string }) {
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/90 backdrop-blur-sm">
+      <Loader2 className="size-8 animate-spin text-primary" />
+      <p className="text-sm font-medium">{label}</p>
+    </div>
+  );
+}
 
 /** Acciones de RSVP en la vista pública del evento (spec 5.4). */
 export function PublicRsvpActions({
@@ -29,8 +39,12 @@ export function PublicRsvpActions({
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  // submitting permanece true durante la navegación (no se apaga en éxito):
+  // así el overlay cubre hasta que carga la pantalla del evento.
+  const [submitting, setSubmitting] = useState(false);
 
   const goToEvent = () => {
+    setSubmitting(true);
     router.push(`/app/event/${eventId}`);
     router.refresh();
   };
@@ -41,6 +55,7 @@ export function PublicRsvpActions({
       return;
     }
     setLoading(true);
+    setSubmitting(true);
     const supabase = createClient();
     const { error } = await supabase.rpc("rsvp_via_token", {
       p_share_token: shareToken,
@@ -51,8 +66,9 @@ export function PublicRsvpActions({
       p_guest_count: 0,
       p_guest_breakdown: [],
     });
-    setLoading(false);
     if (error) {
+      setLoading(false);
+      setSubmitting(false);
       toast.error(tErrors("generic"));
       return;
     }
@@ -62,6 +78,7 @@ export function PublicRsvpActions({
 
   return (
     <div className="grid gap-3">
+      {submitting && <SavingOverlay label={t("saving")} />}
       {isParticipant ? (
         <Button render={<Link href={`/app/event/${eventId}`} />}>
           {t("viewEvent")}

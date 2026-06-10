@@ -5,6 +5,7 @@ import { Beef } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { UserMenu } from "@/components/shared/user-menu";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
+import { GuestBanner } from "@/components/shared/guest-banner";
 
 export default async function DashboardLayout({
   children,
@@ -44,6 +45,9 @@ export default async function DashboardLayout({
           </div>
         </div>
       </header>
+      {profile?.is_anonymous && (
+        <GuestBanner displayName={profile.display_name} />
+      )}
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
         {children}
       </main>

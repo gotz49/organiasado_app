@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Organizá asados y juntadas con amigos: cantidades, quién trae qué y quién le debe a quién.",
     start_url: "/app",
     display: "standalone",
-    background_color: "#e8f1f2",
-    theme_color: "#31493c",
+    background_color: "#f5f3f4",
+    theme_color: "#a4161a",
     lang: "es",
     icons: [
       {

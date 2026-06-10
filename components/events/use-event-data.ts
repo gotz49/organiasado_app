@@ -21,6 +21,7 @@ export interface EventData {
   expenses: Expense[];
   shares: ExpenseShare[];
   settlements: Settlement[];
+  coOrganizers: string[]; // user_ids
 }
 
 export function eventDataKey(eventId: string) {
@@ -30,7 +31,7 @@ export function eventDataKey(eventId: string) {
 async function fetchEventData(eventId: string): Promise<EventData> {
   const supabase = createClient();
 
-  const [participantsRes, itemsRes, expensesRes, settlementsRes] =
+  const [participantsRes, itemsRes, expensesRes, settlementsRes, coOrgsRes] =
     await Promise.all([
       supabase
         .from("event_participants")
@@ -52,12 +53,17 @@ async function fetchEventData(eventId: string): Promise<EventData> {
         .select("*")
         .eq("event_id", eventId)
         .order("settled_at", { ascending: false }),
+      supabase
+        .from("event_co_organizers")
+        .select("user_id")
+        .eq("event_id", eventId),
     ]);
 
   const participants = participantsRes.data ?? [];
   const items = itemsRes.data ?? [];
   const expenses = expensesRes.data ?? [];
   const settlements = settlementsRes.data ?? [];
+  const coOrganizers = (coOrgsRes.data ?? []).map((c) => c.user_id);
 
   const itemIds = items.map((i) => i.id);
   const expenseIds = expenses.map((x) => x.id);
@@ -100,6 +106,7 @@ async function fetchEventData(eventId: string): Promise<EventData> {
     expenses,
     shares: sharesRes.data ?? [],
     settlements,
+    coOrganizers,
   };
 }
 

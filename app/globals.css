@@ -57,76 +57,76 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", "Courier New", monospace;
 
-  /* Paleta Organiasado — verdes/teal (light) */
-  --background: hsl(186 28% 97%);
-  --foreground: hsl(195 60% 10%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(195 60% 10%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(195 60% 10%);
-  --primary: hsl(148 22% 24%); /* pine-teal */
-  --primary-foreground: hsl(186 28% 96%); /* alice-blue */
-  --secondary: hsl(119 45% 90%); /* celadon claro */
-  --secondary-foreground: hsl(148 25% 20%);
-  --muted: hsl(186 24% 93%);
-  --muted-foreground: hsl(150 12% 38%);
-  --accent: hsl(119 55% 86%); /* celadon */
-  --accent-foreground: hsl(148 25% 20%);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: hsl(160 18% 86%);
-  --input: hsl(160 18% 86%);
-  --ring: hsl(127 16% 55%); /* muted-teal */
-  --brand: #bf0603; /* brick-ember — color del logo */
-  --chart-1: hsl(148 22% 35%);
-  --chart-2: hsl(127 16% 55%);
-  --chart-3: hsl(119 45% 70%);
-  --chart-4: hsl(186 28% 65%);
-  --chart-5: hsl(195 60% 30%);
+  /* Classic Red (light) */
+  --background: #f5f3f4; /* white-smoke */
+  --foreground: #0b090a; /* onyx */
+  --card: #ffffff;
+  --card-foreground: #0b090a;
+  --popover: #ffffff;
+  --popover-foreground: #0b090a;
+  --primary: #a4161a; /* mahogany-red */
+  --primary-foreground: #f5f3f4;
+  --secondary: #e9e4e4;
+  --secondary-foreground: #161a1d; /* carbon-black */
+  --muted: #ece8e8;
+  --muted-foreground: #6f6664;
+  --accent: #f3e1e1; /* tinte rojo claro */
+  --accent-foreground: #660708; /* dark-garnet */
+  --destructive: #e5383b; /* strawberry-red */
+  --border: #e2dcdc;
+  --input: #e2dcdc;
+  --ring: #a4161a;
+  --brand: #a4161a; /* color del logo */
+  --chart-1: #a4161a;
+  --chart-2: #e5383b;
+  --chart-3: #ba181b;
+  --chart-4: #b1a7a6;
+  --chart-5: #660708;
   --radius: 0.625rem;
-  --sidebar: hsl(186 28% 96%);
-  --sidebar-foreground: hsl(195 60% 10%);
-  --sidebar-primary: hsl(148 22% 24%);
-  --sidebar-primary-foreground: hsl(186 28% 96%);
-  --sidebar-accent: hsl(119 55% 86%);
-  --sidebar-accent-foreground: hsl(148 25% 20%);
-  --sidebar-border: hsl(160 18% 86%);
-  --sidebar-ring: hsl(127 16% 55%);
+  --sidebar: #f5f3f4;
+  --sidebar-foreground: #0b090a;
+  --sidebar-primary: #a4161a;
+  --sidebar-primary-foreground: #f5f3f4;
+  --sidebar-accent: #f3e1e1;
+  --sidebar-accent-foreground: #660708;
+  --sidebar-border: #e2dcdc;
+  --sidebar-ring: #a4161a;
 }
 
 .dark {
-  /* Paleta Ocean Sunset (dark): prussian-blue / deep-teal / jasmine / brick-ember / blood-red */
-  --background: #001427; /* prussian-blue */
-  --foreground: #eaf1f0;
-  --card: #04223a;
-  --card-foreground: #eaf1f0;
-  --popover: #04223a;
-  --popover-foreground: #eaf1f0;
-  --primary: #f4d58d; /* jasmine */
-  --primary-foreground: #001427;
-  --secondary: #708d81; /* deep-teal */
-  --secondary-foreground: #001427;
-  --muted: #0a2840;
-  --muted-foreground: #9fb6ad;
-  --accent: #708d81; /* deep-teal */
-  --accent-foreground: #001427;
-  --destructive: #bf0603; /* brick-ember (rojo legible) */
-  --border: rgba(234, 241, 240, 0.12);
-  --input: rgba(234, 241, 240, 0.16);
-  --ring: #708d81;
-  --brand: #bf0603; /* brick-ember — color del logo */
-  --chart-1: #f4d58d;
-  --chart-2: #708d81;
-  --chart-3: #bf0603;
-  --chart-4: #8d0801;
-  --chart-5: #9fb6ad;
-  --sidebar: #04223a;
-  --sidebar-foreground: #eaf1f0;
-  --sidebar-primary: #f4d58d;
-  --sidebar-primary-foreground: #001427;
-  --sidebar-accent: #708d81;
-  --sidebar-accent-foreground: #001427;
-  --sidebar-border: rgba(234, 241, 240, 0.12);
-  --sidebar-ring: #708d81;
+  /* Classic Red (dark): onyx / carbon-black / garnet / mahogany / strawberry */
+  --background: #0b090a; /* onyx */
+  --foreground: #f5f3f4; /* white-smoke */
+  --card: #161a1d; /* carbon-black */
+  --card-foreground: #f5f3f4;
+  --popover: #161a1d;
+  --popover-foreground: #f5f3f4;
+  --primary: #ba181b; /* mahogany-red-2 */
+  --primary-foreground: #f5f3f4;
+  --secondary: #21262b;
+  --secondary-foreground: #f5f3f4;
+  --muted: #1b2024;
+  --muted-foreground: #b1a7a6; /* silver */
+  --accent: #660708; /* dark-garnet */
+  --accent-foreground: #f5f3f4;
+  --destructive: #e5383b; /* strawberry-red */
+  --border: rgba(245, 243, 244, 0.12);
+  --input: rgba(245, 243, 244, 0.16);
+  --ring: #ba181b;
+  --brand: #e5383b; /* strawberry — logo visible en dark */
+  --chart-1: #e5383b;
+  --chart-2: #ba181b;
+  --chart-3: #a4161a;
+  --chart-4: #b1a7a6;
+  --chart-5: #660708;
+  --sidebar: #161a1d;
+  --sidebar-foreground: #f5f3f4;
+  --sidebar-primary: #ba181b;
+  --sidebar-primary-foreground: #f5f3f4;
+  --sidebar-accent: #660708;
+  --sidebar-accent-foreground: #f5f3f4;
+  --sidebar-border: rgba(245, 243, 244, 0.12);
+  --sidebar-ring: #ba181b;
 }
 
 @layer base {

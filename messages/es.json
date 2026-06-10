@@ -38,6 +38,20 @@
     "logout": "Cerrar sesión",
     "toggleTheme": "Cambiar tema"
   },
+  "guest": {
+    "bannerText": "Estás como invitado: si perdés esta sesión, perdés tus datos.",
+    "secureAccount": "Asegurar cuenta",
+    "upgradeTitle": "Asegurá tu cuenta",
+    "upgradeSubtitle": "Agregá un email y contraseña para conservar tus datos y entrar desde cualquier dispositivo. Mantenemos todo lo que ya cargaste.",
+    "name": "Nombre y apellido",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Repetir contraseña",
+    "createAccount": "Crear mi cuenta",
+    "cancel": "Cancelar",
+    "saving": "Guardando…",
+    "upgraded": "¡Cuenta creada! Ya podés entrar desde cualquier lado."
+  },
   "auth": {
     "loginTitle": "Iniciar sesión",
     "loginSubtitle": "Entrá para ver tus eventos",
@@ -274,7 +288,14 @@
     "remove": "Quitar del evento",
     "hostTag": "(organiza)",
     "guests": "acomp.",
-    "guestBadge": "no registrado"
+    "guestBadge": "no registrado",
+    "coOrgBadge": "co-organiza",
+    "makeCoOrg": "Hacer co-organizador",
+    "removeCoOrg": "Quitar co-organizador",
+    "coOrgAdded": "Ahora es co-organizador",
+    "coOrgRemoved": "Ya no es co-organizador",
+    "guestCantCoOrg": "invitado",
+    "coOrgNeedsAccount": "Para ser co-organizador necesita registrarse"
   },
   "items": {
     "hint": "Tocá un ítem para anotarte a llevarlo.",
@@ -367,6 +388,7 @@
     "register": "Crear cuenta",
     "notActive": "Este evento no acepta confirmaciones.",
     "answered": "Respuesta registrada",
+    "saving": "Guardando tu respuesta…",
     "viewEvent": "Ver el evento completo",
     "guestTitle": "Entrar como invitado",
     "firstName": "Nombre",

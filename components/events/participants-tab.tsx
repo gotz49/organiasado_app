@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { UserPlus, UserX } from "lucide-react";
+import { Shield, ShieldCheck, UserPlus, UserX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -98,8 +98,17 @@ export function ParticipantsTab({
     invalidate();
   };
 
-  const removeParticipant = async (participantId: string) => {
+  const removeParticipant = async (participantId: string, userId: string) => {
     const supabase = createClient();
+    // Borrar los gastos que pagó esta persona en el evento (esto cascadea
+    // sus expense_shares). Los settlements (pagos ya hechos) quedan como registro.
+    await supabase
+      .from("expenses")
+      .delete()
+      .eq("event_id", event.id)
+      .eq("paid_by", userId);
+    // Borrar al participante: cascadea sus item_assignments y sus shares
+    // en gastos de otros.
     const { error } = await supabase
       .from("event_participants")
       .delete()
@@ -109,6 +118,25 @@ export function ParticipantsTab({
       return;
     }
     toast.success(t("removed"));
+    invalidate();
+  };
+
+  const toggleCoOrganizer = async (userId: string, isCoOrg: boolean) => {
+    const supabase = createClient();
+    const { error } = isCoOrg
+      ? await supabase
+          .from("event_co_organizers")
+          .delete()
+          .eq("event_id", event.id)
+          .eq("user_id", userId)
+      : await supabase
+          .from("event_co_organizers")
+          .insert({ event_id: event.id, user_id: userId });
+    if (error) {
+      toast.error(tErrors("generic"));
+      return;
+    }
+    toast.success(isCoOrg ? t("coOrgRemoved") : t("coOrgAdded"));
     invalidate();
   };
 
@@ -157,6 +185,8 @@ export function ParticipantsTab({
         {sorted.map((participant) => {
           const profile = data.profiles.get(participant.user_id);
           const name = profile?.display_name ?? "?";
+          const isTheHost = participant.user_id === event.host_id;
+          const isCoOrg = data.coOrganizers.includes(participant.user_id);
           const initials = name
             .split(" ")
             .map((w) => w[0])
@@ -188,6 +218,12 @@ export function ParticipantsTab({
                       {t("guestBadge")}
                     </span>
                   )}
+                  {isCoOrg && !isTheHost && (
+                    <span className="ml-2 inline-flex items-center gap-0.5 rounded bg-accent px-1.5 py-0.5 align-middle text-[10px] font-normal text-accent-foreground">
+                      <ShieldCheck className="size-3" />
+                      {t("coOrgBadge")}
+                    </span>
+                  )}
                 </p>
                 <p className="truncate text-xs text-muted-foreground">
                   {tEater(participant.eater_type)}
@@ -200,14 +236,38 @@ export function ParticipantsTab({
                 {tRsvp(participant.rsvp_status)}
               </Badge>
               {isHost && participant.user_id !== currentUserId && (
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={() => removeParticipant(participant.id)}
-                  title={t("remove")}
-                >
-                  <UserX />
-                </Button>
+                <>
+                  {!isTheHost &&
+                    (profile?.is_anonymous ? (
+                      <span
+                        className="text-[10px] text-muted-foreground"
+                        title={t("coOrgNeedsAccount")}
+                      >
+                        {t("guestCantCoOrg")}
+                      </span>
+                    ) : (
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() =>
+                          toggleCoOrganizer(participant.user_id, isCoOrg)
+                        }
+                        title={isCoOrg ? t("removeCoOrg") : t("makeCoOrg")}
+                      >
+                        {isCoOrg ? <ShieldCheck /> : <Shield />}
+                      </Button>
+                    ))}
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={() =>
+                      removeParticipant(participant.id, participant.user_id)
+                    }
+                    title={t("remove")}
+                  >
+                    <UserX />
+                  </Button>
+                </>
               )}
             </li>
           );

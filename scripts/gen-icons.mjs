@@ -4,8 +4,8 @@
 import sharp from "sharp";
 import { mkdirSync } from "node:fs";
 
-const BRAND = "#bf0603"; // brick-ember (logo)
-const BG = "#f4d58d"; // jasmine
+const BRAND = "#e5383b"; // strawberry-red (logo)
+const BG = "#0b090a"; // onyx
 
 // Path del ícono "beef" de Lucide (viewBox 24x24, stroke)
 const beef = `
