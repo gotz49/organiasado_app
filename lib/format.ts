@@ -57,6 +57,17 @@ export function formatTime(time: string | null): string | null {
   return `${h}:${m}`;
 }
 
+/**
+ * Convierte un timestamptz (UTC ISO) al string que espera un
+ * <input type="datetime-local">, en la HORA LOCAL del navegador.
+ * Sin esto, al editar se mostraría la hora en UTC (corrida +3h en Uruguay).
+ */
+export function toLocalDatetimeInput(iso: string): string {
+  const d = new Date(iso);
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
 export function isPastEvent(eventDate: string): boolean {
   const today = new Date();
   today.setHours(0, 0, 0, 0);

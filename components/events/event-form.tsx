@@ -30,6 +30,7 @@ import { FieldError } from "@/components/shared/field-error";
 import { ExcelImportField } from "@/components/events/excel-import-field";
 import { createClient } from "@/lib/supabase/client";
 import { buildItemsFromPresets } from "@/lib/calculator";
+import { toLocalDatetimeInput } from "@/lib/format";
 import { CURRENCIES, DEFAULT_CURRENCY } from "@/lib/constants";
 import { eventSchema, type EventInput } from "@/lib/validators/event";
 import type { ImportResult } from "@/lib/excel/types";
@@ -72,7 +73,7 @@ export function EventForm({ eventTypes, profile, event }: EventFormProps) {
           locationText: event.location_text ?? "",
           currency: event.currency as EventInput["currency"],
           rsvpDeadline: event.rsvp_deadline
-            ? event.rsvp_deadline.slice(0, 16)
+            ? toLocalDatetimeInput(event.rsvp_deadline)
             : "",
         }
       : {

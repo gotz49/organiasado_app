@@ -25,6 +25,7 @@ function OnboardingForm() {
   const t = useTranslations("onboarding");
   const tErrors = useTranslations("errors");
   const tEater = useTranslations("eaterTypes");
+  const tRef = useTranslations("eaterReference");
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/app";
@@ -86,10 +87,20 @@ function OnboardingForm() {
               onValueChange={(v) => setEaterType(v as EaterTypeDefault)}
             >
               {EATER_TYPES.map((type) => (
-                <div key={type} className="flex items-center gap-2">
-                  <RadioGroupItem value={type} id={`eater-${type}`} />
-                  <Label htmlFor={`eater-${type}`} className="font-normal">
-                    {tEater(type)} — {t(`eaterHint.${type}`)}
+                <div key={type} className="flex items-start gap-2">
+                  <RadioGroupItem
+                    value={type}
+                    id={`eater-${type}`}
+                    className="mt-1"
+                  />
+                  <Label
+                    htmlFor={`eater-${type}`}
+                    className="grid gap-0.5 font-normal"
+                  >
+                    <span className="font-medium">{tEater(type)}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {tRef(type)}
+                    </span>
                   </Label>
                 </div>
               ))}

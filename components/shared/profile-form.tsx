@@ -35,6 +35,7 @@ export function ProfileForm({
 }) {
   const t = useTranslations("profile");
   const tEater = useTranslations("eaterTypes");
+  const tRef = useTranslations("eaterReference");
   const tErrors = useTranslations("errors");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -119,10 +120,20 @@ export function ProfileForm({
                   onValueChange={(v) => field.onChange(v)}
                 >
                   {EATER_TYPES.map((type) => (
-                    <div key={type} className="flex items-center gap-2">
-                      <RadioGroupItem value={type} id={`eater-${type}`} />
-                      <Label htmlFor={`eater-${type}`} className="font-normal">
-                        {tEater(type)}
+                    <div key={type} className="flex items-start gap-2">
+                      <RadioGroupItem
+                        value={type}
+                        id={`eater-${type}`}
+                        className="mt-1"
+                      />
+                      <Label
+                        htmlFor={`eater-${type}`}
+                        className="grid gap-0.5 font-normal"
+                      >
+                        <span className="font-medium">{tEater(type)}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {tRef(type)}
+                        </span>
                       </Label>
                     </div>
                   ))}

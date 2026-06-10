@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Beef, CalendarDays, MapPin, User, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import { createClient } from "@/lib/supabase/server";
 import { formatDate, formatTime } from "@/lib/format";
 import type { PublicEventPreview } from "@/types/database";
 import { PublicRsvpActions } from "@/components/events/public-rsvp-actions";
+import { GuestAccess } from "@/components/events/guest-access";
 
 export default async function PublicEventPage({
   params,
@@ -49,7 +49,7 @@ export default async function PublicEventPage({
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-10">
       <Link href="/" className="mb-8 flex items-center gap-2 text-xl font-bold">
-        <Beef className="size-7 text-primary" />
+        <Beef className="size-7 text-brand" />
         {tLanding("appName")}
       </Link>
 
@@ -104,32 +104,7 @@ export default async function PublicEventPage({
                 isParticipant={event.is_participant}
               />
             ) : (
-              <div className="grid gap-2">
-                <p className="text-sm text-muted-foreground">
-                  {t("loginToRsvp")}
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    render={
-                      <Link
-                        href={`/login?next=${encodeURIComponent(`/e/${shareToken}`)}`}
-                      />
-                    }
-                  >
-                    {t("login")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    render={
-                      <Link
-                        href={`/register?next=${encodeURIComponent(`/e/${shareToken}`)}`}
-                      />
-                    }
-                  >
-                    {t("register")}
-                  </Button>
-                </div>
-              </div>
+              <GuestAccess shareToken={shareToken} />
             )
           ) : (
             <p className="text-sm text-muted-foreground">

@@ -15,7 +15,7 @@ export default async function AuthLayout({
         href="/"
         className="mb-8 flex items-center gap-2 text-xl font-bold"
       >
-        <Beef className="size-7 text-primary" />
+        <Beef className="size-7 text-brand" />
         {t("appName")}
       </Link>
       <div className="w-full max-w-sm">{children}</div>

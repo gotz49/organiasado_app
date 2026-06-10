@@ -52,6 +52,7 @@ export function RsvpDialog({
 }) {
   const t = useTranslations("rsvp");
   const tEater = useTranslations("eaterTypesFull");
+  const tRef = useTranslations("eaterReference");
   const tErrors = useTranslations("errors");
 
   const defaultEater: ParticipantEaterType =
@@ -116,6 +117,15 @@ export function RsvpDialog({
                 ))}
               </SelectContent>
             </Select>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              <span className="font-medium">{tEater("low")}:</span> {tRef("low")}
+              <br />
+              <span className="font-medium">{tEater("normal")}:</span>{" "}
+              {tRef("normal")}
+              <br />
+              <span className="font-medium">{tEater("high")}:</span>{" "}
+              {tRef("high")}
+            </p>
           </div>
 
           <div className="grid gap-2">

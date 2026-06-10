@@ -183,6 +183,11 @@ export function ParticipantsTab({
                       {t("hostTag")}
                     </span>
                   )}
+                  {profile?.is_anonymous && (
+                    <span className="ml-2 rounded bg-muted px-1.5 py-0.5 align-middle text-[10px] font-normal text-muted-foreground">
+                      {t("guestBadge")}
+                    </span>
+                  )}
                 </p>
                 <p className="truncate text-xs text-muted-foreground">
                   {tEater(participant.eater_type)}

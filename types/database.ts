@@ -32,6 +32,7 @@ export type Profile = {
   default_eater_type: EaterTypeDefault;
   dietary_restrictions: DietaryRestrictions;
   locale: string;
+  is_anonymous: boolean;
   created_at: string;
   updated_at: string;
 }

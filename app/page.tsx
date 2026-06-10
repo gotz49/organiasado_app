@@ -30,7 +30,7 @@ export default async function LandingPage() {
       <header className="border-b">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <span className="flex items-center gap-2 text-lg font-bold">
-            <Beef className="size-6 text-primary" />
+            <Beef className="size-6 text-brand" />
             {t("appName")}
           </span>
           <nav className="flex items-center gap-2">

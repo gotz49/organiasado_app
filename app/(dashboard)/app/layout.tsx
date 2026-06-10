@@ -32,7 +32,7 @@ export default async function DashboardLayout({
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <Link href="/app" className="flex items-center gap-2 font-bold">
-            <Beef className="size-6 text-primary" />
+            <Beef className="size-6 text-brand" />
             {t("appName")}
           </Link>
           <div className="flex items-center gap-1">

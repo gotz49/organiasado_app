@@ -93,6 +93,11 @@
     "normal": "Normal",
     "high": "Como mucho"
   },
+  "eaterReference": {
+    "low": "≈ 1 hamburguesa, 250 g de asado o 2 porciones de pizza",
+    "normal": "≈ 2 hamburguesas, 400 g de asado o 3 porciones",
+    "high": "≈ 3 hamburguesas, 600 g de asado o 5 porciones"
+  },
   "eaterTypesFull": {
     "low": "Come poco",
     "normal": "Normal",
@@ -268,7 +273,8 @@
     "removed": "Participante quitado",
     "remove": "Quitar del evento",
     "hostTag": "(organiza)",
-    "guests": "acomp."
+    "guests": "acomp.",
+    "guestBadge": "no registrado"
   },
   "items": {
     "hint": "Tocá un ítem para anotarte a llevarlo.",
@@ -360,7 +366,14 @@
     "register": "Crear cuenta",
     "notActive": "Este evento no acepta confirmaciones.",
     "answered": "Respuesta registrada",
-    "viewEvent": "Ver el evento completo"
+    "viewEvent": "Ver el evento completo",
+    "guestTitle": "Entrar como invitado",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "enterAsGuest": "Entrar al evento",
+    "entering": "Entrando…",
+    "guestHint": "Vas a aparecer con tu nombre, sin crear cuenta. Para ser co-organizador o reutilizar tus datos en otros eventos, registrate.",
+    "or": "o"
   },
   "excel": {
     "importTitle": "Importar desde Excel (opcional)",
@@ -464,7 +477,8 @@
     "invalidCredentials": "Email o contraseña incorrectos",
     "emailNotConfirmed": "Confirmá tu email antes de entrar",
     "emailTaken": "Ya existe una cuenta con ese email",
-    "sessionExpired": "El link venció. Pedí uno nuevo."
+    "sessionExpired": "El link venció. Pedí uno nuevo.",
+    "guestDisabled": "El acceso de invitados no está habilitado todavía. Registrate o pedile al organizador que lo active."
   },
   "legal": {
     "terms": {
