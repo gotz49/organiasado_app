@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Juntada — App de organización de eventos gastronómicos
 
-## Getting Started
+PWA para organizar asados, hamburgueseadas y juntadas entre amigos: cuántos van,
+cuánto comprar, quién trae qué y quién le debe a quién. MVP v1 según `../spec-mvp-v1.md`.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Next.js 16 (App Router) · TypeScript · Tailwind v4 + shadcn/ui (base-ui) · Supabase
+(PostgreSQL + Auth + RLS + Realtime) · next-intl · Zod · React Hook Form · TanStack
+Query · SheetJS.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Puesta en marcha local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Instalar dependencias**
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Levantar Supabase local** (requiere Docker Desktop corriendo)
+   ```bash
+   npx supabase start
+   ```
+   Anotá la `API URL`, la `anon key` y la `service_role key` que imprime.
 
-## Learn More
+3. **Variables de entorno** — copiá `.env.example` a `.env.local` y completá:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
+   SUPABASE_SERVICE_ROLE_KEY=<service_role key>
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Aplicar migraciones**
+   ```bash
+   npx supabase db reset
+   ```
+   Esto corre `supabase/migrations/*`: esquema, RLS, RPCs y los tipos de evento
+   globales (Asado, Hamburgueseada, Pizza + presets rioplatenses, en la migración
+   `...004_seed_global_event_types.sql`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Verificación de email en desarrollo**
+   Por defecto Supabase local no envía emails reales (revisá Inbucket en
+   `http://127.0.0.1:54324`). Para saltar la verificación, en `supabase/config.toml`
+   poné `[auth.email] enable_confirmations = false` y volvé a `db reset`. El registro
+   detecta si hay sesión inmediata y entra directo al onboarding.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. **Correr la app**
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción |
+| `npm run lint` | ESLint |
+| `node scripts/gen-icons.mjs` | Regenera los íconos PWA (placeholder) |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Estructura
+
+- `app/` — rutas (grupos `(auth)`, `(public)`, `(dashboard)`), callback de auth, legales, manifest.
+- `components/ui/` — shadcn/ui. `components/events/` — vista de evento y tabs. `components/shared/` — providers, menú, formularios comunes.
+- `lib/supabase/` — clientes browser/server + `proxy.ts` (protección de rutas, ex middleware).
+- `lib/calculator/` — cálculo de cantidades (espejo del trigger SQL). `lib/debts/` — saldos y simplificación tipo Splitwise. `lib/excel/` — import/export/plantilla. `lib/validators/` — schemas Zod.
+- `supabase/migrations/` — esquema, RLS, RPCs y seed de tipos globales.
+- `.github/workflows/` — CI que aplica migraciones (ver `DEPLOY.md`).
+- `messages/es.json` — todas las strings (i18n listo para sumar idiomas).
+- `types/database.ts` — tipos de la DB (mantener en sync; regenerables con `supabase gen types`).
+
+## Notas de arquitectura
+
+- **Recálculo de cantidades**: lo hace un trigger en Postgres (`recalc_event_quantities`)
+  cuando cambian los confirmados. Los ítems con `auto_calculated=false` quedan congelados.
+- **RSVP**: los usuarios se suman a un evento solo vía `rsvp_via_token` (SECURITY DEFINER),
+  validando el `share_token`. Inserción directa en `event_participants` solo para organizadores.
+- **Realtime**: la vista de evento se suscribe a cambios y revalida con TanStack Query.
+- **PWA**: `app/manifest.ts` + `public/sw.js` (network-first para navegación, SWR para estáticos).
+
+## Pendiente antes de producción
+
+- Branding/íconos definitivos (los actuales son placeholders generados).
+- Proyecto Supabase de staging/producción + configurar redirect URLs de auth.
+- Revisar plantillas de email de Supabase (verificación y recovery) en español.
